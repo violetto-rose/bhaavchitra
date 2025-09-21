@@ -19,16 +19,15 @@ class BertAnalyzer:
     def initialize_model(self):
         """Initialize BERT model and tokenizer"""
         try:
-            self.tokenizer = AutoTokenizer.from_pretrained(f"{self.model_path}/tokenizer")
-            self.model = AutoModelForSequenceClassification.from_pretrained(f"{self.model_path}/model")
+            self.tokenizer = AutoTokenizer.from_pretrained(self.model_path)
+            self.model = AutoModelForSequenceClassification.from_pretrained(self.model_path)
         except:
             print("Local model not found. Downloading from Hugging Face...")
             self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
             self.model = AutoModelForSequenceClassification.from_pretrained(self.model_name)
-            os.makedirs(f"{self.model_path}/tokenizer", exist_ok=True)
-            os.makedirs(f"{self.model_path}/model", exist_ok=True)
-            self.tokenizer.save_pretrained(f"{self.model_path}/tokenizer")
-            self.model.save_pretrained(f"{self.model_path}/model")
+            os.makedirs(self.model_path, exist_ok=True)
+            self.tokenizer.save_pretrained(self.model_path)
+            self.model.save_pretrained(self.model_path)
 
         self.analyzer = pipeline(
             "sentiment-analysis",
